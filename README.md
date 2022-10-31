@@ -1,0 +1,2 @@
+# JsysListItemAnimator
+EC-CUBE4.2の一覧画面の商品に簡単なアニメーションが設定できるようになるプラグインです。
