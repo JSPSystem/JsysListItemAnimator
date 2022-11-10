@@ -185,7 +185,7 @@ class GsapTwigService
         $js[] = '});';
         $js[] = '</script>';
 
-        return implode(' ', $js);
+        return implode('', $js);
     }
 
     /**
