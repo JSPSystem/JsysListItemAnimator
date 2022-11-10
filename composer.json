@@ -1,7 +1,7 @@
 {
   "name": "ec-cube/jsyslistitemanimator",
   "version": "1.0.0",
-  "description": "一覧商品アニメーター(4.2系)",
+  "description": "一覧商品アニメーションプラグイン(4.2系)",
   "type": "eccube-plugin",
   "require": {
     "ec-cube/plugin-installer": "~0.0.7 || ^2.0"
