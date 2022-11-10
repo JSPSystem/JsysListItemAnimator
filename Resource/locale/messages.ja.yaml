@@ -1,0 +1,41 @@
+# ======================================
+# FormType 
+# ======================================
+
+# Label
+jsys_listitem_animator.form.label.hide: 非表示
+jsys_listitem_animator.form.label.show: 表示
+
+# Placeholder
+jsys_listitem_animator.form.placeholder.px: 例) -20
+jsys_listitem_animator.form.placeholder.seconds: 例) 1.2
+
+# ======================================
+# Plugin Settings
+# ======================================
+
+# Header
+jsys_listitem_animator.admin.config.header.setting: 設定
+jsys_listitem_animator.admin.config.header.hover: マウスオーバー
+
+# Column
+jsys_listitem_animator.admin.config.option_hide_before_animation: アニメーション前の状態
+jsys_listitem_animator.admin.config.option_slide_animation: 移動
+jsys_listitem_animator.admin.config.slide_animation_x: 移動距離（横）
+jsys_listitem_animator.admin.config.slide_animation_y: 移動距離（縦）
+jsys_listitem_animator.admin.config.duration: アニメーションの時間（秒）
+jsys_listitem_animator.admin.config.option_stagger: 順番にアニメーション
+jsys_listitem_animator.admin.config.stagger: 時間差（秒）
+jsys_listitem_animator.admin.config.option_scroll_trigger: スクロールでアニメーション開始
+jsys_listitem_animator.admin.config.scroll_trigger_start: 開始する位置（％）
+jsys_listitem_animator.admin.config.option_scroll_trigger_markers: 開始位置を表示
+jsys_listitem_animator.admin.config.option_change_scale_on_hover: サイズを変更する
+jsys_listitem_animator.admin.config.change_scale_on_hover_rate: 変更後のサイズ（％）
+jsys_listitem_animator.admin.config.change_scale_on_hover_duration: 変更にかかる時間（秒）
+
+# Tooltip
+jsys_listitem_animator.admin.config.tooltip.slide_animation_x: マイナスは左、プラスは右に移動します。単位はpxです。
+jsys_listitem_animator.admin.config.tooltip.slide_animation_y: マイナスは上、プラスは下に移動します。単位はpxです。
+jsys_listitem_animator.admin.config.tooltip.option_stagger: 有効にすると左上から順番にアニメーションを開始します。
+jsys_listitem_animator.admin.config.tooltip.scroll_trigger_start: 50の場合は、商品上部が画面の中央より上になるとアニメーションを開始します。
+jsys_listitem_animator.admin.config.tooltip.option_scroll_trigger_markers: アニメーションの開始位置を一覧画面に表示します。調整後は無効にしてください。

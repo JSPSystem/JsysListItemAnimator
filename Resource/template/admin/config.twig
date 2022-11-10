@@ -1,0 +1,343 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['store', 'plugin', 'plugin_list'] %}
+
+{% block title %}一覧商品アニメーションプラグイン{% endblock %}
+{% block sub_title %}プラグイン一覧{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block stylesheet %}{% endblock stylesheet %}
+
+{% block javascript %}
+    <script>
+        //  要素を無効または有効にします。
+        const changeState = function($id, $is_disable, $is_toggle = false) {
+            // 無効化の場合は値を初期化
+            if ($is_disable) {
+                if ($is_toggle) {
+                    $($id).prop("checked", false);
+                } else {
+                    $($id).val("");
+                }
+            }
+            // 無効 or 有効
+            $($id).prop("disabled", $is_disable);
+        };
+        // アニメーション共通の項目を変更します。
+        const changeAnimationItems = function() {
+            // アニメーション前の状態と移動のチェックを取得
+            let $option_hide  = $("#config_option_hide_before_animation").prop("checked");
+            let $option_slide = $("#config_option_slide_animation").prop("checked");
+
+            // 非表示も移動もしない場合は項目を無効化、どちらか一方が有効なら有効化
+            let $is_disable = !$option_hide && !$option_slide;
+            changeState("#config_duration", $is_disable);
+            changeState("#config_option_stagger", $is_disable, true);
+            changeState("#config_option_scroll_trigger", $is_disable, true);
+
+            // 順番にアニメーションとスクロールでアニメーション開始のchangeを発火
+            $("#config_option_stagger").change();
+            $("#config_option_scroll_trigger").change();
+        };
+        // アニメーション前の状態change
+        const changeHide = function() {
+            changeAnimationItems();
+        };
+        // 移動change
+        const changeSlide = function() {
+            let $checked = $("#config_option_slide_animation").prop("checked");
+            changeState("#config_slide_animation_x", !$checked);
+            changeState("#config_slide_animation_y", !$checked);
+            changeAnimationItems();
+        };
+        // 順番にアニメーションchange
+        const changeStagger = function() {
+            let $checked = $("#config_option_stagger").prop("checked");
+            changeState("#config_stagger", !$checked);
+        };
+        // スクロールでアニメーション開始change
+        const changeScroll = function() {
+            let $checked = $("#config_option_scroll_trigger").prop("checked");
+            changeState("#config_scroll_trigger_start", !$checked);
+            changeState("#config_option_scroll_trigger_markers", !$checked, true);
+
+            // ラベル切り替えのために開始位置を表示のchangeを発火
+            $("#config_option_scroll_trigger_markers").change();
+        };
+        // サイズを変更するchange
+        const changeHover = function() {
+            let $checked = $("#config_option_change_scale_on_hover").prop("checked");
+            changeState("#config_change_scale_on_hover_rate", !$checked);
+            changeState("#config_change_scale_on_hover_duration", !$checked);
+        };
+
+        $(function() {
+            // イベントを設定
+            $("#config_option_hide_before_animation").change(changeHide);
+            $("#config_option_slide_animation").change(changeSlide);
+            $("#config_option_stagger").change(changeStagger);
+            $("#config_option_scroll_trigger").change(changeScroll);
+            $("#config_option_change_scale_on_hover").change(changeHover);
+
+            // 初期化
+            changeSlide();
+            changeHover();
+        });
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+    <form role="form" method="post">
+
+        {{ form_widget(form._token) }}
+
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+                    {# 設定 #}
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <span>
+                                {{ 'jsys_listitem_animator.admin.config.header.setting'|trans }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            {# アニメーション前の状態 #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>
+                                        {{ 'jsys_listitem_animator.admin.config.option_hide_before_animation'|trans }}
+                                    </span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.option_hide_before_animation) }}
+                                    {{ form_errors(form.option_hide_before_animation) }}
+                                </div>
+                            </div>
+                            {# 移動 #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>
+                                        {{ 'jsys_listitem_animator.admin.config.option_slide_animation'|trans }}
+                                    </span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.option_slide_animation) }}
+                                    {{ form_errors(form.option_slide_animation) }}
+                                </div>
+                            </div>
+                            {# 移動距離（横） #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <div
+                                      class="d-inline-block"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title="{{ 'jsys_listitem_animator.admin.config.tooltip.slide_animation_x'|trans }}"
+                                    >
+                                        <span>
+                                            {{ 'jsys_listitem_animator.admin.config.slide_animation_x'|trans }}
+                                        </span>
+                                        <i class="fa fa-question-circle fa-lg ms-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.slide_animation_x) }}
+                                    {{ form_errors(form.slide_animation_x) }}
+                                </div>
+                            </div>
+                            {# 移動距離（縦） #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <div
+                                      class="d-inline-block"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title="{{ 'jsys_listitem_animator.admin.config.tooltip.slide_animation_y'|trans }}"
+                                    >
+                                        <span>
+                                            {{ 'jsys_listitem_animator.admin.config.slide_animation_y'|trans }}
+                                        </span>
+                                        <i class="fa fa-question-circle fa-lg ms-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.slide_animation_y) }}
+                                    {{ form_errors(form.slide_animation_y) }}
+                                </div>
+                            </div>
+                            {# アニメーションする時間（秒） #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>
+                                        {{ 'jsys_listitem_animator.admin.config.duration'|trans }}
+                                    </span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.duration) }}
+                                    {{ form_errors(form.duration) }}
+                                </div>
+                            </div>
+                            {# 順番にアニメーション #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <div
+                                      class="d-inline-block"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title="{{ 'jsys_listitem_animator.admin.config.tooltip.option_stagger'|trans }}"
+                                    >
+                                        <span>
+                                            {{ 'jsys_listitem_animator.admin.config.option_stagger'|trans }}
+                                        </span>
+                                        <i class="fa fa-question-circle fa-lg ms-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.option_stagger) }}
+                                    {{ form_errors(form.option_stagger) }}
+                                </div>
+                            </div>
+                            {# 時間差（秒） #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>
+                                        {{ 'jsys_listitem_animator.admin.config.stagger'|trans }}
+                                    </span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.stagger) }}
+                                    {{ form_errors(form.stagger) }}
+                                </div>
+                            </div>
+                            {# スクロールでアニメーション開始 #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>
+                                        {{ 'jsys_listitem_animator.admin.config.option_scroll_trigger'|trans }}
+                                    </span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.option_scroll_trigger) }}
+                                    {{ form_errors(form.option_scroll_trigger) }}
+                                </div>
+                            </div>
+                            {# 開始する位置（％） #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <div
+                                      class="d-inline-block"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title="{{ 'jsys_listitem_animator.admin.config.tooltip.scroll_trigger_start'|trans }}"
+                                    >
+                                        <span>
+                                            {{ 'jsys_listitem_animator.admin.config.scroll_trigger_start'|trans }}
+                                        </span>
+                                        <i class="fa fa-question-circle fa-lg ms-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.scroll_trigger_start) }}
+                                    {{ form_errors(form.scroll_trigger_start) }}
+                                </div>
+                            </div>
+                            {# 開始位置を表示 #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <div
+                                      class="d-inline-block"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title="{{ 'jsys_listitem_animator.admin.config.tooltip.option_scroll_trigger_markers'|trans }}"
+                                    >
+                                        <span>
+                                            {{ 'jsys_listitem_animator.admin.config.option_scroll_trigger_markers'|trans }}
+                                        </span>
+                                        <i class="fa fa-question-circle fa-lg ms-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.option_scroll_trigger_markers) }}
+                                    {{ form_errors(form.option_scroll_trigger_markers) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {# /設定 #}
+                    {# マウスオーバー #}
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <span>
+                                {{ 'jsys_listitem_animator.admin.config.header.hover'|trans }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            {# サイズを変更する #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>
+                                        {{ 'jsys_listitem_animator.admin.config.option_change_scale_on_hover'|trans }}
+                                    </span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.option_change_scale_on_hover) }}
+                                    {{ form_errors(form.option_change_scale_on_hover) }}
+                                </div>
+                            </div>
+                            {# サイズ（％） #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>
+                                        {{ 'jsys_listitem_animator.admin.config.change_scale_on_hover_rate'|trans }}
+                                    </span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.change_scale_on_hover_rate) }}
+                                    {{ form_errors(form.change_scale_on_hover_rate) }}
+                                </div>
+                            </div>
+                            {# 変更にかかる時間（秒） #}
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>
+                                        {{ 'jsys_listitem_animator.admin.config.change_scale_on_hover_duration'|trans }}
+                                    </span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.change_scale_on_hover_duration) }}
+                                    {{ form_errors(form.change_scale_on_hover_duration) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {# /マウスオーバー #}
+                </div>
+            </div>
+        </div>
+        <div class="c-conversionArea">
+            <div class="c-conversionArea__container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-6">
+                        <div class="c-conversionArea__leftBlockItem">
+                            <a class="c-baseLink"
+                               href="{{ url('admin_store_plugin') }}">
+                                <i class="fa fa-backward" aria-hidden="true"></i>
+                                <span>プラグイン一覧</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row align-items-center justify-content-end">
+                            <div class="col-auto">
+                                <button class="btn btn-ec-conversion px-5"
+                                        type="submit">登録</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
