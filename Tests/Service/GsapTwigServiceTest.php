@@ -73,8 +73,8 @@ class GsapTwigServiceTest extends AbstractServiceTestCase
         $this->assertStringContainsString('opacity: 0;', $parts->css);
         $this->assertStringContainsString('visibility: hidden;', $parts->css);
         $this->assertStringContainsString('position: relative;', $parts->css);
-        $this->assertStringContainsString('left: ' . -$x . ';', $parts->css);
-        $this->assertStringContainsString('top: ' . -$y . ';', $parts->css);
+        $this->assertStringContainsString('left: ' . -$x . 'px;', $parts->css);
+        $this->assertStringContainsString('top: ' . -$y . 'px;', $parts->css);
 
         // gsap・ScrollTriggerを読み込んでいるか
         $this->assertTrue($parts->gsap);
@@ -127,8 +127,8 @@ class GsapTwigServiceTest extends AbstractServiceTestCase
         $this->assertStringContainsString('opacity: 0;', $parts->css);
         $this->assertStringContainsString('visibility: hidden;', $parts->css);
         $this->assertStringNotContainsString('position: relative;', $parts->css);
-        $this->assertStringNotContainsString('left: ' . -$x . ';', $parts->css);
-        $this->assertStringNotContainsString('top: ' . -$y . ';', $parts->css);
+        $this->assertStringNotContainsString('left: ' . -$x . 'px;', $parts->css);
+        $this->assertStringNotContainsString('top: ' . -$y . 'px;', $parts->css);
 
         // gsapを読み込んでいるか・ScrollTriggerの読み込みはないか
         $this->assertTrue($parts->gsap);
