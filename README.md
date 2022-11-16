@@ -1,4 +1,10 @@
 # EC-CUBE4.2 一覧商品アニメーションプラグイン
+![GitHub](https://img.shields.io/github/license/JSPSystem/JsysListItemAnimator)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/JSPSystem/JsysListItemAnimator)
+![GitHub top language](https://img.shields.io/github/languages/top/JSPSystem/JsysListItemAnimator)
+![workflow](https://github.com/JSPSystem/JsysListItemAnimator/actions/workflows/test.yml/badge.svg)  
+
+https://img.shields.io/github/workflow/status/JSPSystem/JsysListItemAnimator/CI%252FCD+EC-CUBE4.2+Plugin
 EC-CUBE4.2の商品一覧に簡単なアニメーションが設定できるようになるプラグインです。  
 ダウンロード無料となっております。
 
